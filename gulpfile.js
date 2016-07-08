@@ -1,15 +1,17 @@
 'use strict';
 
 var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')({
-    rename: {
-        'gulp-clean-css': 'cleanCSS'
-    }
-});
+var plugins = require('gulp-load-plugins')();
 
 var handleError = function(error) {
     console.error('Error:', error);
 };
+
+gulp.task('sass-lint', function() {
+    return gulp.src(['sass/**/*.scss'])
+        .pipe(plugins.sassLint())
+        .pipe(plugins.sassLint.format());
+});
 
 gulp.task('sass', function() {
     var minify = process.argv.indexOf('--minify') !== -1;
@@ -28,7 +30,7 @@ gulp.task('sass', function() {
 
     if (minify) {
         stream = stream.pipe(plugins.filter('css/*.css'))
-            .pipe(plugins.cleanCSS({ compatability: 'ie8' }))
+            .pipe(plugins.cleanCss({ compatability: 'ie8' }))
             .pipe(plugins.rename({ extname: '.min.css' }))
             .pipe(gulp.dest('css'));
     }
@@ -36,4 +38,5 @@ gulp.task('sass', function() {
     return stream;
 });
 
+gulp.task('lint', ['sass-lint']);
 gulp.task('default', ['sass']);
