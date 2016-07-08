@@ -14,16 +14,16 @@ and running faster.
 * Testing
 
 #### Dev Folder Structure:
-.
-+-- css/
-+-- sass/
-+-- js/
-+-- js_public/
-+-- node_modules/
-+-- react/
-+-- .sass-lint.yml
-+-- gulpfile.js
-+-- package.json
+.  
++-- css/  
++-- sass/  
++-- js/  
++-- js_public/  
++-- node_modules/  
++-- react/  
++-- .sass-lint.yml  
++-- gulpfile.js  
++-- package.json  
 
 #### Basic Cycle:
 1. Either running `gulp watch` or not, write sass styles in `sass/`, react code in `react/` or
