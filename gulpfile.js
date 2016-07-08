@@ -2,13 +2,14 @@
 
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
+var stylesDir = 'sass/**/*.scss';
 
 var handleError = function(error) {
     console.error('Error:', error);
 };
 
 gulp.task('sass-lint', function() {
-    return gulp.src(['sass/**/*.scss'])
+    return gulp.src([stylesDir])
         .pipe(plugins.sassLint())
         .pipe(plugins.sassLint.format());
 });
@@ -38,5 +39,10 @@ gulp.task('sass', function() {
     return stream;
 });
 
+gulp.task('stylesheet-watcher', function() {
+    gulp.watch(stylesDir, ['sass-lint', 'sass']);
+});
+
 gulp.task('lint', ['sass-lint']);
+gulp.task('watch', ['stylesheet-watcher']);
 gulp.task('default', ['sass']);
