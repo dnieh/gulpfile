@@ -1,14 +1,21 @@
 'use strict';
 
 var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
+var plugins = require('gulp-load-plugins')({
+    rename: {
+        'gulp-clean-css': 'cleanCSS'
+    }
+});
 
 var handleError = function(error) {
     console.error('Error:', error);
 };
 
 gulp.task('sass', function() {
-    return gulp.src(['sass/*.scss'])
+    var minify = process.argv.indexOf('--minify') !== -1;
+    var stream;
+
+    stream = gulp.src(['sass/*.scss'])
         .pipe(plugins.plumber({ errorHandler: handleError }))
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.autoprefixer({ browsers: ['last 2 versions', '> 5%', 'not ie <= 8'] }))
@@ -18,6 +25,15 @@ gulp.task('sass', function() {
             sourceRoot: '../sass/'
         }))
         .pipe(gulp.dest('css'));
+
+    if (minify) {
+        stream = stream.pipe(plugins.filter('css/*.css'))
+            .pipe(plugins.cleanCSS({ compatability: 'ie8' }))
+            .pipe(plugins.rename({ extname: '.min.css' }))
+            .pipe(gulp.dest('css'));
+    }
+
+    return stream;
 });
 
 gulp.task('default', ['sass']);

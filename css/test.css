@@ -1,6 +1,7 @@
-.test {
-  display: none; }
-  .test .fart {
+.foo {
+  display: none;
+  font-size: 15px; }
+  .foo .bar {
     color: black; }
 
 /*# sourceMappingURL=test.css.map */
