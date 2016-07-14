@@ -8,6 +8,27 @@ var handleError = function(error) {
     console.error('Error:', error);
 };
 
+gulp.task('react', function() {
+});
+
+gulp.task('javascript-lint', function() {
+});
+
+gulp.task('javascript', function() {
+    var stream;
+
+    stream = gulp.src(['js/**/index.js'])
+        .pipe(plugins.sourcemaps.init())
+        .pipe(plugins.babel())
+        .pipe(plugins.sourcemaps.write('./', {
+            includeContent: false,
+            sourceRoot: '../js/'
+        }))
+        .pipe(gulp.dest('js_public'));
+
+    return stream;
+});
+
 gulp.task('sass-lint', function() {
     return gulp.src([stylesDir])
         .pipe(plugins.sassLint())
@@ -45,4 +66,4 @@ gulp.task('stylesheet-watcher', function() {
 
 gulp.task('lint', ['sass-lint']);
 gulp.task('watch', ['stylesheet-watcher']);
-gulp.task('default', ['sass']);
+gulp.task('default', ['sass', 'javascript']);
